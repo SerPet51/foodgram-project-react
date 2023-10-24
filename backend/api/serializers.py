@@ -1,9 +1,11 @@
 import base64
+
 import webcolors
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+
 from users.models import Follow
 from recipes.models import (Ingredient,
                             IngredientRecipe,
