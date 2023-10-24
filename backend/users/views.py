@@ -1,13 +1,13 @@
+from api.pagination import CustomPagination
+from api.serializers import FollowListSerializer, FollowSerializer
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from api.pagination import CustomPagination
-from api.serializers import FollowListSerializer, FollowSerializer
-from users.serializers import UsersSerializer
 from users.models import Follow
+from users.serializers import UsersSerializer
 
 User = get_user_model()
 

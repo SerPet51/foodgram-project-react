@@ -2,11 +2,11 @@ version: '3.3'
 services:
 
   db:
-    image: postgres:13.0-alpine
+    container_name: postgre_db
+    image: postgres:13
+    env_file: .env
     volumes:
-      - /var/lib/postgresql/data/
-    env_file:
-      - ./.env
+      - pg_data:/var/lib/postgresql/data
 
   web:
     image: tetkaslepoka/foodgram_backend:latest

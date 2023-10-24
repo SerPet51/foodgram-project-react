@@ -4,14 +4,10 @@ import webcolors
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
-from rest_framework import serializers
-
-from users.models import Follow
-from recipes.models import (Ingredient,
-                            IngredientRecipe,
-                            Recipe,
-                            ShoppingCart,
+from recipes.models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart,
                             Tag)
+from rest_framework import serializers
+from users.models import Follow
 from users.serializers import UsersSerializer
 
 User = get_user_model()
