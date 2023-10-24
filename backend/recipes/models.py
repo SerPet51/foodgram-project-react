@@ -1,7 +1,6 @@
 from colorfield import fields
 from django.contrib.auth import get_user_model
 from django.db import models
-
 from foodgram.settings import MAX_LENGTH
 
 User = get_user_model()

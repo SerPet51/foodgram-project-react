@@ -1,14 +1,15 @@
 import base64
-
 import webcolors
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-
-from recipes.models import (Ingredient, IngredientRecipe, Recipe, ShoppingCart,
-                            Tag)
 from users.models import Follow
+from recipes.models import (Ingredient,
+                            IngredientRecipe,
+                            Recipe,
+                            ShoppingCart,
+                            Tag)
 from users.serializers import UsersSerializer
 
 User = get_user_model()
@@ -181,7 +182,8 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     def validate_cooking_time(self, value):
         if value == 0:
             raise serializers.ValidationError(
-                'Формат времени некорректен (нельзя указывать отрицательное число или 0)!'
+                'Формат времени некорректен '
+                '(нельзя указывать отрицательное число или 0)!'
             )
         return value
 
