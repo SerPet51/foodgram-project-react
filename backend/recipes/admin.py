@@ -31,4 +31,4 @@ class IngredientRecipeAdmin(admin.ModelAdmin):
 admin.site.register(ShoppingCart)
 admin.site.register(Follow)
 admin.site.register(Favourite)
-admin.site.register(User)
+

@@ -10,6 +10,3 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'first_name', 'last_name')
     list_filter = ('first_name', 'email')
     empty_value_display = 'Пусто'
-
-
-admin.site.register(User, UserAdmin)
