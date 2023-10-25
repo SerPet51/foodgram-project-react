@@ -1,5 +1,5 @@
 """
-ASGI config for foodgram_backend project.
+ASGI config for foodgram project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
