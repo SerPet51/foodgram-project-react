@@ -6,9 +6,9 @@ from colorfield.fields import ColorField
 from users.models import User
 
 MIN_COOKING_TIME = 1
-MAX_COOKING_TIME = 10080
+MAX_COOKING_TIME = 10101
 MIN_ING_AMOUNT = 1
-MAX_ING_AMOUNT = 5000
+MAX_ING_AMOUNT = 500
 NAME_LIMIT = 15
 
 

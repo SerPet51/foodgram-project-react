@@ -91,7 +91,7 @@ class IngredientRecipeCreateSerializer(serializers.ModelSerializer):
     def validate_amount(self, value):
         if value < MIN_ING_AMOUNT or value > MAX_ING_AMOUNT:
             raise serializers.ValidationError(
-                'Нужно указать кол-во от 1 до 5000!'
+                'Нужно указать кол-во от 1 до 500!'
             )
         return value
 
@@ -169,7 +169,7 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
     def validate_cooking_time(self, value):
         if value < MIN_COOKING_TIME or value > MAX_COOKING_TIME:
             raise serializers.ValidationError(
-                'Пожалуйста, указывайте адекватное время готовки!'
+                'Пожалуйста, указывайте корректное время готовки!'
             )
         return value
 
@@ -193,12 +193,13 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
         unique_tags = []
         if not tags:
             raise serializers.ValidationError(
-                'Нужно выбрать хотя бы 1 тег!'
+                'Нужно добавить хотя бы 1 тег!'
             )
         for tag in tags:
             if tag in unique_tags:
                 raise serializers.ValidationError(
-                    'Не стоит добавлять один и тот же ингредиент много раз!'
+                    'Не стоит добавлять один и тот же '
+                    'ингредиент несколько раз!'
                 )
             unique_tags.append(tag)
         return tags
