@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django_default_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'localhost', 'infra1kg.ddns.net']
+ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'localhost', 'foodgramyap.ddns.net']
 
 
 INSTALLED_APPS = [
