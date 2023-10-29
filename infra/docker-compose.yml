@@ -27,7 +27,7 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static_volume:/frontend_static
-  gateway:
+  nginx:
     image: nginx:1.19.3
     env_file: .env
     ports:

@@ -23,8 +23,8 @@ services:
     command: cp -r /app/build/.  /frontend_static/
     volumes:
       - static_volume:/frontend_static
-  gateway:
-    image: tetkaslepoka/foodgram_gateway
+  nginx:
+    image: tetkaslepoka/foodgram_gateway:latest
     env_file: .env
     ports:
       - "8000:80"
