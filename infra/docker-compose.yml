@@ -12,20 +12,22 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
-    build: ../backend/
+    build:
+      context: ../backend/
+      dockerfile: Dockerfile
     env_file: .env
     volumes:
-      - static_volume:/backend_static/
-      - media_volume:/app/media/
+      - static:/backend_static
+      - media:/app/media
     depends_on:
       - db
   frontend:
     env_file: .env
-    build: ../frontend/
+    build: ./frontend/
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static_volume:/frontend_static
-  nginx:
+  gateway:
     image: nginx:1.19.3
     env_file: .env
     ports:
