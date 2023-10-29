@@ -18,7 +18,7 @@ services:
       - static:/backend_static
       - media:/app/media
     depends_on:
-      - foodgram_db
+      - postgres:13.10
   frontend:
     image: tetkaslepoka/foodgram_frontend
     env_file: .env
