@@ -1,8 +1,10 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django_default_secret_key')
@@ -79,45 +81,28 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_FILTER_BACKENDS': [
-        "django_filters.rest_framework.DjangoFilterBackend",
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
-    'DEFAULT_PAGINATION_CLASS':
-        "rest_framework.pagination.LimitOffsetPagination",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 6,
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-
 }
 
 DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'HIDE_USERS': False,
     'SERIALIZERS': {
-        'user_list': 'api.serializers.UserSerializer',
-        'user': 'users.serializers.UserSerializer',
-        'current_user': 'users.serializers.UserSerializer',
+        'user_create': 'api.serializers.CustomUserCreateSerializer',
+        'user': 'api.serializers.CustomUserSerializer',
+        'current_user': 'api.serializers.CustomUserSerializer',
     },
     'PERMISSIONS': {
-        'activation': ['rest_framework.permissions.AllowAny'],
-        'password_reset': ['rest_framework.permissions.IsAdminUser'],
-        'password_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
-        'set_password': ['rest_framework.permissions.IsAuthenticated'],
-        'username_reset': ['rest_framework.permissions.IsAdminUser'],
-        'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
-        'set_username': ['rest_framework.permissions.IsAdminUser'],
-        'user_create': ['rest_framework.permissions.AllowAny'],
-        'user_delete': ['rest_framework.permissions.IsAdminUser'],
-        'user': ['rest_framework.permissions.IsAuthenticated'],
-        'current_user': ['rest_framework.permissions.IsAuthenticated'],
-        'user_list': ['rest_framework.permissions.IsAuthenticated'],
-        'token_create': ['rest_framework.permissions.AllowAny'],
-        'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
-    }
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+        'user_list': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
+    },
 }
 
 LANGUAGE_CODE = 'ru-RU'
