@@ -17,7 +17,7 @@ services:
       - static:/backend_static
       - media:/app/media
     depends_on:
-      - postgres:13.10
+      - db
 
   frontend:
     build:
