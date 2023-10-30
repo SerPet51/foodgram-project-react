@@ -1,33 +1,38 @@
-version: '3'
+version: '3.3'
 
 volumes:
-  pg_data_production:
-  static_volume:
-  media_volume:
+  foodgram_pg_data:
+  static:
+  media:
 
 services:
-  db:
-    image: postgres:13.10
+  foodgram_db:
+    image: postgres:13
     env_file: .env
     volumes:
-      - pg_data_production:/var/lib/postgresql/data
+      - foodgram_pg_data:/var/lib/postgresql/data
+
   backend:
-    image: tetkaslepoka/foodgram_backend
+    image: tetkaslepoka/foodgram_backend:latest
     env_file: .env
     volumes:
-      - static_volume:/backend_static/
-      - media_volume:/app/media/
+      - static:/backend_static
+      - media:/app/media
+    depends_on:
+      - foodgram_db
+
   frontend:
-    image: tetkaslepoka/foodgram_frontend
+    image: tetkaslepoka/foodgram_frontend:latest
     env_file: .env
-    command: cp -r /app/build/.  /frontend_static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static_volume:/frontend_static
-  gateway:
-    image: tetkaslepoka/foodgram_gateway
+      - static:/frontend_static
+
+  nginx:
+    image: aleksentcev/foodgram_gateway:latest
     env_file: .env
-    volumes:
-      - static_volume:/staticfiles/
-      - media_volume:/media/cats/images/
     ports:
-      - 8000:80
+      - "8000:80"
+    volumes:
+      - static:/staticfiles/
+      - media:/media
