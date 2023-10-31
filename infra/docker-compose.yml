@@ -7,10 +7,10 @@ volumes:
 
 services:
   foodgram_db:
-    image: postgres:13
+    image: postgres:13.10
     env_file: .env
     volumes:
-      - foodgram_pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
 
   backend:
     image: tetkaslepoka/foodgram_backend:latest
