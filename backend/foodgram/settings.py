@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django_default_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'localhost', 'foodgramyap.ddns.net']
 
@@ -142,5 +142,6 @@ AUTH_USER_MODEL = 'users.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 
 MAX_LENGTH = 20
+FILE_NAME = 'shopping_cart.txt'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

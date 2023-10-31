@@ -1,93 +1,51 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
-from django.forms.models import BaseInlineFormSet
 
-from .models import (
-    Ingredient,
-    Tag,
-    Recipe,
-    IngredientRecipe,
-    TagRecipe,
-    Favorite,
-    ShoppingCart
-)
+from . import models
 
 
-@admin.register(Ingredient)
+@admin.register(models.Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'name',
-        'measurement_unit'
-    )
-    list_filter = ('name',)
+    list_display = ('pk', 'name', 'measurement_unit')
+    list_filter = ('name', )
+    search_fields = ('name', )
 
 
-class IngredientRecipeForm(BaseInlineFormSet):
-
-    def clean(self):
-        super(IngredientRecipeForm, self).clean()
-        for form in self.forms:
-            if not hasattr(form, 'cleaned_data'):
-                continue
-            data = form.cleaned_data
-            if data.get('DELETE'):
-                raise ValidationError(
-                    'Нельзя удалять все ингредиенты из рецепта даже в админке!'
-                )
-
-
-class IngredientRecipeInLine(admin.TabularInline):
-    model = IngredientRecipe
-    min_num = 1
-    formset = IngredientRecipeForm
-
-
-@admin.register(Tag)
+@admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'name',
-        'color',
-        'slug'
-    )
+    list_display = ('pk', 'name', 'color', 'slug')
+    list_editable = ('name', 'color', 'slug')
+    empty_value_display = '-пусто-'
 
 
-class TagRecipeForm(BaseInlineFormSet):
-
-    def clean(self):
-        super(TagRecipeForm, self).clean()
-        for form in self.forms:
-            if not hasattr(form, 'cleaned_data'):
-                continue
-            data = form.cleaned_data
-            if data.get('DELETE'):
-                raise ValidationError(
-                    'Нельзя удалять все теги из рецепта даже в админке!'
-                )
-
-
-class TagRecipeInLine(admin.TabularInline):
-    model = TagRecipe
-    min_num = 1
-    formset = TagRecipeForm
-
-
-@admin.register(Recipe)
+@admin.register(models.Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'name',
-        'author',
-        'count_favorite'
+    list_display = ('pk', 'name', 'author', 'in_favorites')
+    list_editable = (
+        'name', 'cooking_time', 'text', 'tags',
+        'image', 'author'
     )
-    list_filter = ('author', 'tags')
-    search_fields = ('name',)
-    inlines = (IngredientRecipeInLine, TagRecipeInLine)
+    readonly_fields = ('in_favorites',)
+    list_filter = ('name', 'author', 'tags')
+    empty_value_display = '-пусто-'
 
-    def count_favorite(self, obj):
-        return obj.favorites.count()
+    @admin.display(description='В избранном')
+    def in_favorites(self, obj):
+        return obj.favorite_recipe.count()
 
 
-admin.site.register(Favorite)
-admin.site.register(ShoppingCart)
+@admin.register(models.Recipe_ingredient)
+class RecipeIngredientAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'recipe', 'ingredient', 'amount')
+    list_editable = ('recipe', 'ingredient', 'amount')
+
+
+@admin.register(models.Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'recipe')
+    list_editable = ('user', 'recipe')
+
+
+@admin.register(models.Shopping_cart)
+class ShoppingCartAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'recipe')
+    list_editable = ('user', 'recipe')
