@@ -1,21 +1,27 @@
 from django.contrib import admin
 
-from . import models
+from .models import CustomUser, Follow
 
 
-@admin.register(models.User)
-class UserAdmin(admin.ModelAdmin):
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-        'username', 'pk', 'email', 'password', 'first_name', 'last_name',
+        'id', 'email', 'username', 'first_name', 'last_name', 'is_blocked',
+        'is_superuser',
     )
-    list_editable = ('password', )
-    list_filter = ('username', 'email')
-    search_fields = ('username', 'email')
-    empty_value_display = '-пусто-'
+    list_filter = (
+        'email', 'username', 'is_blocked', 'is_superuser',
+    )
+    search_fields = ('email', 'username', 'first_name', 'last_name',)
+    fieldsets = (
+        (None, {'fields': (
+            'email', 'username', 'first_name', 'last_name', 'password',
+        )}),
+        ('Permissions', {'fields': ('is_blocked', 'is_superuser',)})
+    )
 
 
-@admin.register(models.Subscribe)
-class SubscribeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'author')
-    list_editable = ('user', 'author')
-    empty_value_display = '-пусто-'
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('user', 'author')
+    search_fields = ('user', 'author')

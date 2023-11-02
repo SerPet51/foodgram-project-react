@@ -1,51 +1,48 @@
 from django.contrib import admin
 
-from . import models
+from .models import (Favorite, Ingredient, Recipe,
+                     RecipeIngredient, ShoppingCart, Tag)
 
 
-@admin.register(models.Ingredient)
-class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'measurement_unit')
-    list_filter = ('name', )
-    search_fields = ('name', )
-
-
-@admin.register(models.Tag)
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'color', 'slug')
-    list_editable = ('name', 'color', 'slug')
-    empty_value_display = '-пусто-'
+    list_display = ('id', 'name', 'slug', 'color')
+    list_filter = ('name', 'slug')
+    search_fields = ('name',)
 
 
-@admin.register(models.Recipe)
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'measurement_unit')
+    list_filter = ('name', 'measurement_unit')
+    search_fields = ('name',)
+
+
+@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'author', 'in_favorites')
-    list_editable = (
-        'name', 'cooking_time', 'text', 'tags',
-        'image', 'author'
-    )
-    readonly_fields = ('in_favorites',)
-    list_filter = ('name', 'author', 'tags')
-    empty_value_display = '-пусто-'
+    list_display = ('name', 'author', 'count_favorites')
+    list_filter = ('author', 'name', 'tags')
 
-    @admin.display(description='В избранном')
-    def in_favorites(self, obj):
-        return obj.favorite_recipe.count()
+    def count_favorites(self, obj):
+        return obj.favorites.count()
 
 
-@admin.register(models.Recipe_ingredient)
+@admin.register(RecipeIngredient)
 class RecipeIngredientAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'recipe', 'ingredient', 'amount')
-    list_editable = ('recipe', 'ingredient', 'amount')
+    list_display = ('id', 'recipe', 'ingredient', 'amount')
+    list_filter = ('recipe', 'ingredient', 'amount')
+    search_fields = ('recipe', 'ingredient')
 
 
-@admin.register(models.Favorite)
+@admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'recipe')
-    list_editable = ('user', 'recipe')
+    list_display = ('id', 'recipe', 'user')
+    list_filter = ('recipe', 'user')
+    search_fields = ('recipe', 'user')
 
 
-@admin.register(models.Shopping_cart)
+@admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'recipe')
-    list_editable = ('user', 'recipe')
+    list_display = ('id', 'recipe', 'user')
+    list_filter = ('recipe', 'user')
+    search_fields = ('recipe', 'user')
