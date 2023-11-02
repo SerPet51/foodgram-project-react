@@ -7,7 +7,7 @@ volumes:
 
 services:
   db:
-    container_name: postgre_db
+    container_name: django
     image: postgres:13.10
     env_file: .env
     volumes:
