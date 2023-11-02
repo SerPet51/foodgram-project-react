@@ -19,7 +19,7 @@ services:
       - ./.env
 
   nginx:
-    image: nginx:1.22.1
+    image: tetkaslepoka/foodgram_frontend
     ports:
       - "8000:80"
     volumes:
