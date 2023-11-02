@@ -57,10 +57,11 @@ jobs:
             sudo docker-compose rm -f backend
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
-            sudo docker compose exec backend python manage.py makemigrations
-            sudo docker compose exec backend python manage.py migrate
-            sudo docker compose exec backend python manage.py collectstatic --noinput
-            sudo docker compose exec backend python manage.py load_data
+            sudo docker-compose up -d
+            sudo docker-compose exec backend python manage.py makemigrations
+            sudo docker-compose exec backend python manage.py migrate
+            sudo docker-compose exec backend python manage.py collectstatic --noinput
+            sudo docker-compose exec backend python manage.py load_data
 
   send_message:
     runs-on: ubuntu-latest
