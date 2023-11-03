@@ -37,8 +37,3 @@ services:
       - ../frontend/:/app/result_build/
     depends_on:
       - nginx
-
-volumes:
-  db:
-  backend_static:
-  media_value:
