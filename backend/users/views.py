@@ -5,18 +5,18 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from foodgram.pagination import LimitPageNumber
+from foodgram.pagination import LimitPageNumberPaginator
 from recipes.serializers import SubscriptionSerializer
 from .models import CustomUser, Follow
 from .serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(UserViewSet):
-    """ViewSet пользователя"""
+    """ВьюСет пользователя"""
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = (AllowAny, )
-    pagination_class = LimitPageNumber
+    pagination_class = LimitPageNumberPaginator
 
     @action(
         methods=['GET'],
@@ -74,11 +74,11 @@ class CustomUserViewSet(UserViewSet):
 
 
 class CheckBlockAndTokenCreate(TokenCreateView):
-    """ViewSet проверки блокировки пользователя"""
+    """Вью для проверки пользователя на блокировку"""
     def _action(self, serializer):
         if serializer.user.is_block:
             return Response(
-                {'ERROR': 'Пользователь заблокирован!'},
+                {'ERROR': 'Данный пользователь заблокирован!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         return super()._action(serializer)

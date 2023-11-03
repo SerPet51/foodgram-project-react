@@ -2,6 +2,7 @@ from .models import Follow
 
 
 class SubscribeMixin:
+    """Миксин подписки"""
     def get_is_subscribed(self, obj):
         user = self.context['request'].user
         if user.is_anonymous:

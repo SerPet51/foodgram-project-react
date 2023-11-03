@@ -8,7 +8,7 @@ from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 
-from foodgram.pagination import LimitPageNumber
+from foodgram.pagination import LimitPageNumberPaginator
 from .filters import IngredientSearchFilter, RecipeFilter
 from .models import (Favorite, Ingredient, Recipe,
                      RecipeIngredient, ShoppingCart, Tag)
@@ -40,7 +40,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = RecipeGetSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
-    pagination_class = LimitPageNumber
+    pagination_class = LimitPageNumberPaginator
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:

@@ -54,7 +54,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeCreateIngredientSerializer(serializers.ModelSerializer):
-    """Сериализотор для создания ингредиентов"""
+    """Сериализотор для создания ингредиентов рецепта"""
     id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
     amount = serializers.IntegerField()
 
@@ -175,7 +175,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
 
 
 class RecipeListSerializer(serializers.ModelSerializer):
-    """Сериализатор для получения информации о рецепте в подписках"""
+    """Сериализатор для краткого вывода информации о рецепте в подписках"""
     image = Base64ImageField()
 
     class Meta:

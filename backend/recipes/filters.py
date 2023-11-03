@@ -4,7 +4,7 @@ from .models import Ingredient, Recipe
 
 
 class IngredientSearchFilter(filters.FilterSet):
-    """Фильтр для поиска ингредиентов"""
+    """Фильтр для поиска ингредиентов во время создания рецепта"""
     name = filters.CharFilter(field_name='name', lookup_expr='istartswith')
 
     class Meta:
@@ -13,7 +13,7 @@ class IngredientSearchFilter(filters.FilterSet):
 
 
 class RecipeFilter(filters.FilterSet):
-    """Фильтр рецептов"""
+    """Фильтрует рецепты по избранному, списку покупок и тегам"""
     is_favorited = filters.BooleanFilter(
         field_name='is_favorited',
         method='favorite_filter'

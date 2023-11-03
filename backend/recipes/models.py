@@ -20,12 +20,12 @@ class Tag(models.Model):
     ]
     name = models.CharField(
         'Название',
-        max_length=100,
+        max_length=55,
         unique=True
     )
     slug = models.SlugField(
         'Слаг',
-        max_length=100,
+        max_length=55,
         unique=True
     )
     color = models.CharField('Цвет тега в HEX',
@@ -151,7 +151,7 @@ class RecipeIngredient(models.Model):
         validators=(
             validators.MinValueValidator(
                 1,
-                message='Добавьте не менее 1 ингредиента'
+                message='Количество ингредиентов должно быть не меньше 1'
             ),
         ),
         verbose_name='Количество'

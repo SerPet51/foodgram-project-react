@@ -13,6 +13,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, username, **extra_fields):
+        """
+        Создание и сохранение суперпользователя с указанным email и password.
+        """
         extra_fields.setdefault('is_superuser', True)
         if extra_fields.get('is_superuser'):
             return self.create_user(email, password, username, **extra_fields)
