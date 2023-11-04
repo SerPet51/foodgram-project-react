@@ -9,9 +9,13 @@ class CustomUserCreateSerializer(UserCreateSerializer):
     """Сериализатор создания пользователя"""
     class Meta:
         model = CustomUser
-        fields = (
-            'email', 'id', 'username', 'password',  'first_name', 'last_name'
-        )
+        fields = ('email',
+                  'id',
+                  'username',
+                  'password',
+                  'first_name',
+                  'last_name'
+                  )
         extra_kwargs = {
             'password': {'write_only': True, 'required': True},
         }
