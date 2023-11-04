@@ -1,23 +1,13 @@
 import os
 from pathlib import Path
 
-import environ
+from dotenv import load_dotenv
 
+load_dotenv()
 
-env = environ.Env(
-    SECRET_KEY=(str, '*'),
-    ALLOWED_HOSTS=(list, []),
-    DB_ENGINE=str,
-    DB_NAME=str,
-    POSTGRES_USER=str,
-    POSTGRES_PASSWORD=str,
-    DB_HOST=str,
-    DB_PORT=int,
-)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env()
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'foodgramyap.ddns.net']
 
@@ -107,11 +97,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'backend_static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'backend_static')
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'collected_static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
