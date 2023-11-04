@@ -3,7 +3,7 @@ name: FOODGRAM-PROJECT
 on:
   push:
     branches:
-    - dev
+      - master
 
 jobs:
   tests:
