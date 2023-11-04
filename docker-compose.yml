@@ -7,7 +7,7 @@ volumes:
 
 services:
   db:
-    container_name: db
+    container_name: postgres_db
     image: postgres:13.10
     env_file: .env
     volumes:
@@ -27,10 +27,11 @@ services:
     volumes:
       - static_volume:/frontend_static
   gateway:
-    build: ./infra/
+    build: ./nginx/
     # env_file: .env
     ports:
       - 8000:80
+
     volumes:
       - static_volume:/staticfiles/
-      - media_volume:/media/cats/images/
+      - media_volume:/media/images/
