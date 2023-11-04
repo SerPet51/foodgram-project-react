@@ -5,7 +5,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data/
     env_file:
-      - ./.env
+      - .env
 
   backend:
     image: tetkaslepoka/foodgram_backend:latest
@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./.env
+      - .env
 
   nginx:
     image: nginx:1.22.1
