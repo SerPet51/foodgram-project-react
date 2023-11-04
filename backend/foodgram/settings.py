@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
-ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'localhost', 'foodgramyap.ddns.net']
+ALLOWED_HOSTS = ['62.84.120.183', '127.0.0.1', 'foodgramyap.ddns.net']
 
 
 INSTALLED_APPS = [
