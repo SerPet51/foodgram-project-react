@@ -19,15 +19,9 @@ services:
       - ./.env
 
   nginx:
-    image: nginx:1.22.1-alpine
+    image: tetkaslepoka/foodgram_gateway
     ports:
       - "8000:80"
-    volumes:
-      - ./nginx.conf:./yc-user/foodgram/nginx
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/:/usr/share/nginx/html/api/docs/
-      - backend_static:/app/backend_static/
-      - media_value:/app/media/
     depends_on:
       - backend
 
