@@ -12,17 +12,17 @@ from foodgram.pagination import LimitPageNumberPaginator
 from .filters import IngredientSearchFilter, RecipeFilter
 from .models import (Favorite, Ingredient, Recipe,
                      RecipeIngredient, ShoppingCart, Tag)
-from .permissions import AdminOrReadOnly, AuthorOrReadOnly
+from .permissions import AuthorOrReadOnly
 from .serializers import (
     FavoriteSerializer, IngredientSerializer, RecipeCreateSerializer,
     RecipeGetSerializer, ShoppingCartSerializer, TagSerializer)
 
 
-class TagViewSet(viewsets.ReadOnlyModelViewSet):
+class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
-    permission_classes = (AdminOrReadOnly,)
-    pagination_class = None
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = TagSerializer
+    pagination_class = None
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
