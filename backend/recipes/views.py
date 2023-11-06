@@ -56,7 +56,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             user=user, recipe=recipe
         )
         if create:
-            if str(model) == 'Favorite':
+            if type(model) == 'Favorite':
                 serializer = FavoriteSerializer()
             else:
                 serializer = ShoppingCartSerializer()
