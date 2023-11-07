@@ -26,6 +26,8 @@ ALLOWED_HOSTS = ['62.84.120.183',
                  ]
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ['foodgramyap.ddns.net']
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
