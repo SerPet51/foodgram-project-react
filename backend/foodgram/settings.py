@@ -18,10 +18,11 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['62.84.120.183',
                  '127.0.0.1',
-                 'foodgramdplm.ddns.net'
+                 'localhost',
+                 'foodgramyap.ddns.net'
                  ]
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
