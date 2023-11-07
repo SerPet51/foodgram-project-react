@@ -21,7 +21,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 ALLOWED_HOSTS = ['62.84.120.183',
                  '127.0.0.1',
-                 'foodgramyap.ddns.net'
+                 'foodgramdplm.ddns.net'
                  ]
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
