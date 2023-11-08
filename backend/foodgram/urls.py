@@ -11,4 +11,5 @@ api = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api)),
+    path('auth/', include('djoser.urls.authtoken'))
 ]

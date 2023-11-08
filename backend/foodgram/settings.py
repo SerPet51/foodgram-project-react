@@ -24,9 +24,6 @@ ALLOWED_HOSTS = ['62.84.120.183',
                  'localhost',
                  'foodgramyap.ddns.net'
                  ]
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['foodgramyap.ddns.net']
 
 
 INSTALLED_APPS = [
@@ -55,7 +52,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ['https://foodgramyap.ddns.net',
+                        'http://foodgramyap.ddns.net'
+                        ]
 ROOT_URLCONF = 'foodgram.urls'
 
 TEMPLATES = [
