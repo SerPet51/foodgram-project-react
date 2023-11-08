@@ -1,6 +1,8 @@
 from drf_base64.fields import Base64ImageField
 from rest_framework import exceptions, serializers
 from rest_framework.validators import UniqueTogetherValidator
+from django.contrib import messages
+
 
 from users.mixins import SubscribeMixin
 from users.models import Follow
@@ -8,6 +10,8 @@ from users.serializers import CustomUserSerializer
 from .models import (Favorite, Ingredient, Recipe,
                      RecipeIngredient, ShoppingCart, Tag)
 from .utils import double_checker
+
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -99,12 +103,21 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         return data
 
     @staticmethod
-    def validate_cooking_time(value):
-        if value <= 0:
+    def validate_cooking_time(cooking_time):
+        if cooking_time <= 0:
             raise exceptions.ValidationError(
                 'Время приготовления должно быть больше нуля!'
             )
-        return value
+        return cooking_time
+
+    @staticmethod
+    def validate_image_size(image):
+        if image and image.size > MAX_FILE_SIZE:
+            raise exceptions.ValidationError(
+                'Размер файла не должен превышать 5 МБ.'
+            )
+
+        return image
 
     @staticmethod
     def create_ingredients(ingredients, recipe):

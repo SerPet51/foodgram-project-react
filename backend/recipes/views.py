@@ -108,24 +108,19 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=(IsAuthenticated,)
             )
     def download_shopping_cart(self, request):
-        file_name = 'shopping_list.txt'
-        user = request.user
+        """Отправка файла со списком покупок."""
         ingredients = RecipeIngredient.objects.filter(
-            recipe__shopping_cart__user=user
+            recipe__carts__user=request.user
         ).values(
             'ingredient__name', 'ingredient__measurement_unit'
-        ).annotate(ingredient_sum=Sum('amount')).values_list(
-            'ingredient__name', 'ingredient__measurement_unit',
-            'ingredient_sum')
-        content = ''
+        ).annotate(ingredient_amount=Sum('amount'))
+        shopping_list = ['Список покупок:\n']
         for ingredient in ingredients:
-            content += (
-                f'{ingredient[0]} '
-                f'{ingredient[2]} '
-                f'- {ingredient[1]}\r\n'
-            )
-        response = HttpResponse(
-            content, content_type='text/plain', charset='utf-8'
-        )
-        response['Content-Disposition'] = f'attachment; filename={file_name}'
+            name = ingredient['ingredient__name']
+            unit = ingredient['ingredient__measurement_unit']
+            amount = ingredient['ingredient_amount']
+            shopping_list.append(f'\n{name} - {amount}, {unit}')
+        response = HttpResponse(shopping_list, content_type='text/plain')
+        response['Content-Disposition'] = \
+            'attachment; filename="shopping_cart.txt"'
         return response

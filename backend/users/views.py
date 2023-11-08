@@ -40,37 +40,19 @@ class CustomUserViewSet(UserViewSet):
         detail=True,
         permission_classes=(IsAuthenticated,),
     )
-    def subscribe(self, request, id=None):
-        user = request.user
-        author = get_object_or_404(CustomUser, id=id)
-        if request.method == 'POST':
-            if user == author:
-                return Response({
-                    'errors': 'Вы не можете подписываться на самого себя'
-                }, status=status.HTTP_400_BAD_REQUEST)
-            if Follow.objects.filter(user=user, author=author).exists():
-                return Response({
-                    'errors': 'Вы уже подписаны на данного пользователя'
-                }, status=status.HTTP_400_BAD_REQUEST)
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user == data['author']:
+            raise serializers.ValidationError(
+                'Нельзя подписываться на самого себя!'
+            )
+        return data
 
-            follow = Follow.objects.create(user=user, author=author)
-            serializer = SubscriptionSerializer(
-                follow, context={'request': request}
-            )
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        if user == author:
-            return Response(
-                {'errors': 'Вы не можете отписаться от самого себя'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        follow = Follow.objects.filter(user=user, author=author)
-        if follow.exists():
-            follow.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(
-            {'errors': 'Вы уже отписались от этого автора'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        return SubscriptionSerializer(
+            instance.author, context={'request': request}
+        ).data
 
 
 class CheckBlockAndTokenCreate(TokenCreateView):
