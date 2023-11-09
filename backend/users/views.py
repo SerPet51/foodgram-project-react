@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from django.core.exceptions import ValidationError
 
 from foodgram.pagination import LimitPageNumberPaginator
 from recipes.serializers import SubscriptionSerializer
@@ -42,7 +43,7 @@ class CustomUserViewSet(UserViewSet):
     def validate(self, data):
         request = self.context.get('request')
         if request.user == data['author']:
-            raise serializers.ValidationError(
+            raise ValidationError(
                 'Нельзя подписываться на самого себя!'
             )
         return data

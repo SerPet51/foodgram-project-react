@@ -2,8 +2,6 @@ from drf_base64.fields import Base64ImageField
 from rest_framework import exceptions, serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-
-
 from users.mixins import SubscribeMixin
 from users.models import Follow
 from users.serializers import CustomUserSerializer
