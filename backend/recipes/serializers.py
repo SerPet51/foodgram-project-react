@@ -23,6 +23,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class IngredientSerializer(serializers.ModelSerializer):
     """Сериализатор ингредиентов"""
+
     class Meta:
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit')
@@ -100,6 +101,14 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         double_checker([tags, ingredients])
         return data
 
+    def validate_image(self, image):
+        if image.size > MAX_FILE_SIZE:
+            raise serializers.ValidationError(
+                'Размер файла не должен превышать 5 МБ.'
+            )
+
+        return image
+
     @staticmethod
     def validate_cooking_time(cooking_time):
         if cooking_time <= 0:
@@ -107,15 +116,6 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
                 'Время приготовления должно быть больше нуля!'
             )
         return cooking_time
-
-    @staticmethod
-    def validate_image_size(image):
-        if image and image.size > MAX_FILE_SIZE:
-            raise exceptions.ValidationError(
-                'Размер файла не должен превышать 5 МБ.'
-            )
-
-        return image
 
     @staticmethod
     def create_ingredients(ingredients, recipe):
@@ -160,7 +160,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
     ingredients = RecipeIngredientSerializer(
         source='recipe_ingredient',
         many=True,
-        read_only=True,)
+        read_only=True, )
     tags = TagSerializer(read_only=True, many=True)
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
