@@ -1,6 +1,7 @@
 from drf_base64.fields import Base64ImageField
 from rest_framework import exceptions, serializers
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework import status
 
 from users.mixins import SubscribeMixin
 from users.models import Follow
@@ -73,6 +74,11 @@ class RecipeCreateIngredientSerializer(serializers.ModelSerializer):
         return value
 
 
+class EntityTooLargeError(serializers.ValidationError):
+    status_code = status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+    default_detail = 'Слишком большой размер файла.'
+
+
 class RecipeCreateSerializer(serializers.ModelSerializer):
     """Сериализатор для создания рецептов"""
     tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(),
@@ -101,11 +107,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         double_checker([tags, ingredients])
         return data
 
-    def validate_image(self, image):
+    @staticmethod
+    def validate_image(image):
         if image.size > MAX_FILE_SIZE:
-            raise serializers.ValidationError(
-                'Размер файла не должен превышать 5 МБ.'
-            )
+            raise EntityTooLargeError('Размер файла превышает 5Мб')
 
         return image
 
