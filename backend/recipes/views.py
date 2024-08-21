@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from foodgram.pagination import LimitPageNumberPaginator
 from .filters import IngredientSearchFilter, RecipeFilter
@@ -16,6 +17,16 @@ from .permissions import AuthorOrReadOnly
 from .serializers import (
     FavoriteSerializer, IngredientSerializer, RecipeCreateSerializer,
     RecipeGetSerializer, ShoppingCartSerializer, TagSerializer)
+
+
+class ImageUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = RecipeCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success': True})
+        else:
+            return Response(serializer.errors, status=400)
 
 
 class TagViewSet(viewsets.ModelViewSet):

@@ -18,8 +18,8 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = True
-ALLOWED_HOSTS = ['62.84.120.183',
+DEBUG = False
+ALLOWED_HOSTS = ['89.169.160.124git',
                  '127.0.0.1',
                  'localhost',
                  'foodgramyap.ddns.net'

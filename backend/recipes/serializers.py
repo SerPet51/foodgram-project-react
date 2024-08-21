@@ -10,7 +10,7 @@ from .models import (Favorite, Ingredient, Recipe,
                      RecipeIngredient, ShoppingCart, Tag)
 from .utils import double_checker
 
-MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5MB
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -107,12 +107,14 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         double_checker([tags, ingredients])
         return data
 
-    @staticmethod
-    def validate_image(image):
-        if image.size > MAX_FILE_SIZE:
-            raise EntityTooLargeError('Размер файла превышает 5Мб')
-
+    def validate_image(self, image):
+        if image.size > MAX_IMAGE_SIZE:
+            raise serializers.ValidationError('Превышен максимальный размер изображения (5 МБ).')
         return image
+
+    class Meta:
+        model = Recipe
+        fields = '__all__'
 
     @staticmethod
     def validate_cooking_time(cooking_time):
