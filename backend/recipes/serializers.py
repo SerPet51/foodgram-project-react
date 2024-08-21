@@ -109,7 +109,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     def validate_image(self, image):
         if image.size > MAX_IMAGE_SIZE:
-            raise serializers.ValidationError('Превышен максимальный размер изображения (5 МБ).')
+            raise serializers.ValidationError(
+                'Превышен максимальный размер изображения (5 МБ).'
+            )
         return image
 
     class Meta:
